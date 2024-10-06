@@ -12,6 +12,6 @@ class NotSecuredView(APIView):
 
     def post(self, request):
         return JsonResponse(
-            {'message': f'This is a not-secured post endpoint! {request.user.is_authenticated}, {request.user}'})
+            {'message': f'This is a unsecured post endpoint! {request.user.is_authenticated}, {request.user}'})
 
 
