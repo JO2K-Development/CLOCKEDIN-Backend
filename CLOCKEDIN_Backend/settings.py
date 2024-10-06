@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from django.apps import apps
+from dotenv import load_dotenv
+
+
+load_dotenv()  # Load variables from .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +33,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
 
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Default to IsAuthenticated
+    ],
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,16 +52,72 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.humanize',
+    # OAuth Apps
+    'allauth',
+    'allauth.account',
+    'allauth.usersessions',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    # Rest Framework
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',  # Optional, for DRF Auth endpoints
+    'rest_auth.registration',  # Optional, for registration endpoints
 ]
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/google/login/callback/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'  # Where to redirect after logout
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_EMAIL_VERIFICATION = "none"  # or "optional" based on your requirements
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET= True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('CLIENT_SECRET')
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+            'secret': SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+            'key': ''
+        },
+        'EMAIL_AUTHENTICATION': True,
+    }
+}
+
+
+REST_USE_JWT = True  # Używamy JWT do autoryzacji po zalogowaniu
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+    #'allauth.usersessions.middleware.UserSessionsMiddleware',
 ]
 
 ROOT_URLCONF = 'CLOCKEDIN_Backend.urls'
@@ -69,7 +140,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CLOCKEDIN_Backend.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
