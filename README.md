@@ -1,5 +1,16 @@
 # CLOCKEDIN - API
 
+## How to start
+https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
+
+### Environment Variables
+Create a `.env` file in the app root directory with the following content:
+```plaintext
+GOOGLE_CLIENT_ID=<google-client-id>
+GOOGLE_CLIENT_SECRET=<google-client
+```
+
+
 
 # API Server - OAuth2 Login with Google
 
