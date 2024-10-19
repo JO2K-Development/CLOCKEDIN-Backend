@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('api/admin/', include('CLOCKEDIN_Backend.views.admin.urls')),
-    path('api/login/', include('CLOCKEDIN_Backend.views.login.urls')),
+    path('api/auth/', include('CLOCKEDIN_Backend.views.auth.urls')),
     path('api/test/', include('CLOCKEDIN_Backend.views.test.urls')),
 ]
