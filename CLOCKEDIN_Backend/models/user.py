@@ -23,15 +23,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
+    position = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
-    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)  # Add this line
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    roles = models.ManyToManyField('Role', blank=True)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []  # No additional fields are required
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
