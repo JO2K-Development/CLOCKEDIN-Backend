@@ -6,3 +6,4 @@ from CLOCKEDIN_Backend.models.work_cycle import WorkCycle
 from CLOCKEDIN_Backend.models.wage import Wage
 from CLOCKEDIN_Backend.models.user_access_identifiers import UserAccessIdentifier
 from CLOCKEDIN_Backend.models.custom_social_account_adapter import CustomSocialAccountAdapter
+from CLOCKEDIN_Backend.models.invitation import Invitation

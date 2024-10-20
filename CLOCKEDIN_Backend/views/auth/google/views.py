@@ -4,11 +4,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from CLOCKEDIN_Backend.models import Company
 
 class GoogleLogin(APIView):
     def post(self, request):
         token = request.data.get('token')
+        is_admin = request.data.get('is_admin', False)
+        company_name = request.data.get('company_name', None)
 
         # Verify the token with Google
         response = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={token}')
@@ -21,8 +23,18 @@ class GoogleLogin(APIView):
 
         user, created = User.objects.get_or_create(email=email)
 
+        if is_admin:
+            if not company_name:
+                return Response({'error': 'Company name is required for admin users'}, status=status.HTTP_400_BAD_REQUEST)
+            company = Company.objects.create(name=company_name)
+            user.company = company
+            user.is_staff = True  # Assuming is_staff indicates admin status
+            user.save()
+        else:
+            # Regular user flow, assuming they will join a company later
+            pass
+
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
 
         return Response({'access_token': access_token}, status=status.HTTP_200_OK)
-
