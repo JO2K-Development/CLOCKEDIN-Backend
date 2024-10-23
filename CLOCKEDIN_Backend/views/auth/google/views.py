@@ -30,9 +30,6 @@ class GoogleLogin(APIView):
             user.company = company
             user.is_staff = True  # Assuming is_staff indicates admin status
             user.save()
-        else:
-            # Regular user flow, assuming they will join a company later
-            pass
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)

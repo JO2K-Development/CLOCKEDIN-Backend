@@ -13,18 +13,11 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from django.apps import apps
 from dotenv import load_dotenv
 
+load_dotenv()
 
-load_dotenv()  # Load variables from .env file
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-yb@$f@%-ih*!8lczv4_wg%!8v5v)lhjf72jp(xy93*gieqg-a&'
@@ -183,12 +176,12 @@ WSGI_APPLICATION = 'CLOCKEDIN_Backend.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'clockedin',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '33061',  # Default MySQL port
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
