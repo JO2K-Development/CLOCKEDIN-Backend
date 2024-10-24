@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from CLOCKEDIN_Backend.models import Company, Invitation
-from CLOCKEDIN_Backend.premissions import IsAdmin, IsManager
+from CLOCKEDIN_Backend.permissions import IsAdmin, IsManager
 from CLOCKEDIN_Backend.serializers import InviteSerializer
 from CLOCKEDIN_Backend.utils.mailing.welcome_mail_sender import send_welcome_email
 
