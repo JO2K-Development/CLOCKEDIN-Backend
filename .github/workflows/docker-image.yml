@@ -3,10 +3,10 @@ name: Docker Compose Build and Test
 on:
   push:
     branches:
-      - master  # Trigger on push to master branch
+      - master
   pull_request:
     branches:
-      - master  # Trigger on pull requests to master branch
+      - master
 
 jobs:
   build:
@@ -25,6 +25,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install docker-compose -y
 
+    - name: Create .env file
+      run: |
+        echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
+        echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
+        echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
+        # Add other environment variables as needed
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
@@ -32,12 +39,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and run Docker Compose
-      env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        # Add other secrets as needed
       run: |
         docker-compose up -d --build
-        
+
     - name: Tear down Docker Compose
       run: docker-compose down
