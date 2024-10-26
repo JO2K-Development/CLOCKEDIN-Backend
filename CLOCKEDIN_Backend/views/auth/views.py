@@ -2,6 +2,7 @@ from dj_rest_auth.registration.views import RegisterView
 from rest_framework import status
 from rest_framework.response import Response
 from CLOCKEDIN_Backend.models.company import Company
+from CLOCKEDIN_Backend.models.user import User
 from CLOCKEDIN_Backend.serializers.custom_register_serializer import CustomRegisterSerializer
 from django.db import transaction, IntegrityError
 import logging
@@ -9,17 +10,24 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        # Validation and user creation don't need try-catch here
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # Validation errors handled automatically
-        user = serializer.save(request=request)
-        user.save()
-        logger.debug(f"User {user.email} saved successfully")
+        # Call the parent class's create method to handle user creation and email sending
+        response = super().create(request, *args, **kwargs)
+
+        # Fetch the user data directly using the email from the request
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email not provided in request data."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
         # Check if the user is an admin and create a company
         if request.data.get('is_admin', False):
@@ -49,4 +57,4 @@ class CustomRegisterView(RegisterView):
                 return Response({"error": "An unexpected error occurred. Please try again."},
                                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
+        return response

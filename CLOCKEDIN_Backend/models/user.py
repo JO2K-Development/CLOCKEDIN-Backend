@@ -26,7 +26,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     position = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_email_verified = models.BooleanField(default=False)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     roles = models.ManyToManyField('Role', blank=True)
 
