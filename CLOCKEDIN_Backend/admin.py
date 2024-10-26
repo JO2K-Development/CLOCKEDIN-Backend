@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from CLOCKEDIN_Backend.models import Company, User, CurrentlyWorkingCycle, WorkCycle, AccessIdentifier, UserAccessIdentifier, Wage
+from CLOCKEDIN_Backend.models import (
+    AccessIdentifier,
+    Company,
+    CurrentlyWorkingCycle,
+    User,
+    UserAccessIdentifier,
+    Wage,
+    WorkCycle,
+)
 from CLOCKEDIN_Backend.models.invitation import Invitation
 
 admin.site.register(Company)
