@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 from django.db import IntegrityError
 
+
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def save_user(self, request, sociallogin, form=None):
         try:

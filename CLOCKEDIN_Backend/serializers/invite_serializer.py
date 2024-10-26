@@ -1,7 +1,9 @@
 from rest_framework import serializers
 
-class InviteSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True, max_length=50)
-    position = serializers.CharField(required=True, max_length=50)
-    roles = serializers.ListField(child=serializers.IntegerField())
+from CLOCKEDIN_Backend.models import Invitation
 
+
+class InviteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ["email", "position", "roles"]

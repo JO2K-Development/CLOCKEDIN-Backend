@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from CLOCKEDIN_Backend.models import Company, Invitation
@@ -26,9 +26,9 @@ class InviteView(APIView):
 
         # Get validated data
         validated_data = serializer.validated_data
-        email = validated_data['email']
-        position = validated_data['position']
-        roles = validated_data['roles']
+        email = validated_data["email"]
+        position = validated_data["position"]
+        roles = validated_data["roles"]
 
         # Send welcome email (assumed to be a side effect)
         send_welcome_email(email)
@@ -41,6 +41,7 @@ class InviteView(APIView):
         invitation.save()
         invitation.roles.set(roles)  # Assign roles
 
-        return JsonResponse({
-            'message': f'Invitation sent and user created! {request.user.is_authenticated}, {request.user}'
-        }, status=status.HTTP_200_OK)
+        return JsonResponse(
+            {"message": f"Invitation sent and user created! {request.user.is_authenticated}, {request.user}"},
+            status=status.HTTP_200_OK,
+        )
