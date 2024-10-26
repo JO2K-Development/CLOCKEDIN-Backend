@@ -3,10 +3,10 @@ name: Docker Compose Build and Test
 on:
   push:
     branches:
-      - master  # Trigger on push to main branch
+      - master  # Trigger on push to master branch
   pull_request:
     branches:
-      - master  # Trigger on pull requests to main branch
+      - master  # Trigger on pull requests to master branch
 
 jobs:
   build:
@@ -31,6 +31,10 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and run Docker Compose
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        # Add other secrets as needed
       run: |
         docker-compose up -d --build
         
