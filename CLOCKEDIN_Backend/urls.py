@@ -21,7 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("api/admin/", include("CLOCKEDIN_Backend.views.admin.urls")),
-    path("api/auth/", include("CLOCKEDIN_Backend.views.auth.urls")),
+    path("auth/", include("CLOCKEDIN_Backend.views.auth.urls")),
     path("api/user/", include("CLOCKEDIN_Backend.views.user.urls")),
     path("api/test/", include("CLOCKEDIN_Backend.views.test.urls")),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),

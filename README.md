@@ -2,6 +2,48 @@
 
 ## How to start
 
+### Environment Variables
+Create a `.env` file in the app root directory with the following content:
+```plaintext
+GOOGLE_CLIENT_ID=<google-client-id>
+GOOGLE_CLIENT_SECRET=<google-client>
+EMAIL_HOST_PASSWORD=<email-host-password>
+```
+
+### Create a Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Migrate the Database
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### Create a Superuser
+```bash
+python manage.py createsuperuser
+```
+
+### Run the Server
+```bash
+python manage.py runserver
+```
+
+### Optional: Docker
+```bash
+docker-compose up --build
+```
+
+---
 ### Google OAuth2 Integration for Development
 
 This guide provides steps to integrate **Google OAuth2** using **Google Developers Playground** for development purposes.
@@ -38,13 +80,6 @@ This guide provides steps to integrate **Google OAuth2** using **Google Develope
 
 ---
 
-### Environment Variables
-Create a `.env` file in the app root directory with the following content:
-```plaintext
-GOOGLE_CLIENT_ID=<google-client-id>
-GOOGLE_CLIENT_SECRET=<google-client>
-```
-
 
 
 # API Server - OAuth2 Login with Google
@@ -67,9 +102,28 @@ Frontend (User logged in)
 
 ## API Endpoints
 
+### Register User
+
+***POST*** `/auth/register/`
+
+**Headers:**
+
+`Content-Type`: application/json
+
+**Body:**
+```json
+{
+    "email": "<email>",
+    "password1": "<password>",
+    "password2": "<password>"
+}
+```
+
+
+
 ### Login with Google
 
-**POST** `/login/google/`
+**POST** `auth/google/`
 
 **Headers:**
 
