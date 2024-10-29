@@ -55,28 +55,24 @@ class EmployeesManagmentView(APIView):
         company_id = request.user.company_id
         if not company_id:
             return JsonResponse({"error": "User is not assigned to any company"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        email = request.data.get('email', None)
+
+        email = request.data.get("email", None)
         if email is None:
             return JsonResponse({"error": "Email not provided"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         User.objects.filter(email=email).update(company_id=None)
         return JsonResponse({"message": "User removed from company"}, status=status.HTTP_200_OK)
-        
-        
+
     def patch(self, request):
         """change user roles"""
         company_id = request.user.company_id
         if not company_id:
             return JsonResponse({"error": "User is not assigned to any company"}, status=status.HTTP_400_BAD_REQUEST)
-        #TODO: handles current version of app (three basic roles),
+        # TODO: handles current version of app (three basic roles),
         # doesn't handle multiple roles assignment
         acceptable = ["Manager", "Employee"]
-        new_role = request.data.get('role', None)
+        new_role = request.data.get("role", None)
         if new_role not in acceptable:
             return JsonResponse({"error": "Invalid role"}, status=status.HTTP_400_BAD_REQUEST)
-        get_object_or_404(User, request.data['email']).update(role=new_role)
+        get_object_or_404(User, request.data["email"]).update(role=new_role)
         return JsonResponse({"message": "User role changed"}, status=status.HTTP_200_OK)
-    
-    
-        
