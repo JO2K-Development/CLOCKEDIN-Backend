@@ -1,8 +1,12 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
-from CLOCKEDIN_Backend.views.user.views import InvitationView, UserView
+from .views import InvitationViewSet, UserViewSet
+
+router = DefaultRouter()
+router.register(r"users", UserViewSet, basename="user")
+router.register(r"invitations", InvitationViewSet, basename="invitation")
 
 urlpatterns = [
-    path("", UserView.as_view(), name="user_operations"),
-    path("choose-company/", InvitationView.as_view(), name="choose_company"),
+    path("", include(router.urls)),
 ]

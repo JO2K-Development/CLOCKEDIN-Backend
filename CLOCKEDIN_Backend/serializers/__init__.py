@@ -1,1 +1,1 @@
-from CLOCKEDIN_Backend.serializers.invite_serializer import InviteSerializer
+from CLOCKEDIN_Backend.serializers.invite_serializer import InvitationSerializer
