@@ -18,8 +18,8 @@ class InvitationView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        user_email = request.user.email
-        invitations = Invitation.objects.filter(email=user_email, status="pending")
+        user_id = request.user.id
+        invitations = Invitation.objects.filter(id=user_id, status="pending")
 
         if not invitations.exists():
             return Response({"error": "No pending invitations found"}, status=status.HTTP_404_NOT_FOUND)
