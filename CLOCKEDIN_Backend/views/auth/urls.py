@@ -1,5 +1,9 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
 from CLOCKEDIN_Backend.views.auth.google.views import GoogleLogin
 from CLOCKEDIN_Backend.views.auth.views import CustomRegisterView

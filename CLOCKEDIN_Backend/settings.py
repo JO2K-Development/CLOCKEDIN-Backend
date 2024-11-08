@@ -105,7 +105,11 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
-        "APP": {"client_id": SOCIAL_AUTH_GOOGLE_OAUTH2_KEY, "secret": SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET, "key": ""},
+        "APP": {
+            "client_id": SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+            "secret": SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+            "key": "",
+        },
         "EMAIL_AUTHENTICATION": True,
     }
 }

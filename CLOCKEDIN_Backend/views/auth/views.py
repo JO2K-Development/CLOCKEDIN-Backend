@@ -7,7 +7,9 @@ from rest_framework.response import Response
 
 from CLOCKEDIN_Backend.models.company import Company
 from CLOCKEDIN_Backend.models.user import User
-from CLOCKEDIN_Backend.serializers.custom_register_serializer import CustomRegisterSerializer
+from CLOCKEDIN_Backend.serializers.custom_register_serializer import (
+    CustomRegisterSerializer,
+)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -24,12 +26,17 @@ class CustomRegisterView(RegisterView):
         # Fetch the user data directly using the email from the request
         email = request.data.get("email")
         if not email:
-            return Response({"error": "Email not provided in request data."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Email not provided in request data."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+            )
 
         # Check if the user is an admin and create a company
         if request.data.get("is_admin", False):
@@ -37,7 +44,8 @@ class CustomRegisterView(RegisterView):
             if not company_name:
                 logger.warning("Admin registration requires a company name")
                 return Response(
-                    {"error": "Company name is required for admin registration"}, status=status.HTTP_400_BAD_REQUEST
+                    {"error": "Company name is required for admin registration"},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
             # Now wrap only the DB operation in a try-catch
@@ -53,7 +61,8 @@ class CustomRegisterView(RegisterView):
                 logger.error(f"Integrity error while creating company: {e}")
                 transaction.set_rollback(True)  # Rollback any partial database changes
                 return Response(
-                    {"error": "Database error occurred while creating company."}, status=status.HTTP_400_BAD_REQUEST
+                    {"error": "Database error occurred while creating company."},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
             except Exception as e:
