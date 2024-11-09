@@ -4,7 +4,7 @@ from CLOCKEDIN_Backend.models.company import Company
 from CLOCKEDIN_Backend.models.user import User
 
 
-class CurrentlyWorkingCycle(models.Model):
+class CurrentWorkCycle(models.Model):
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="current_work_cycles"
     )

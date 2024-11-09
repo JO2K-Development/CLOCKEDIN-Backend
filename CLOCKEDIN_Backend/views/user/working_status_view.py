@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from CLOCKEDIN_Backend.models import CurrentlyWorkingCycle, WorkCycle
+from CLOCKEDIN_Backend.models import CurrentWorkCycle, WorkCycle
 from CLOCKEDIN_Backend.permissions import IsEmployee
 
 
@@ -16,7 +16,7 @@ class WorkStatusViewSet(ViewSet):
     @transaction.atomic
     def toggle(self, request):
         user = request.user
-        current_cycle = CurrentlyWorkingCycle.objects.filter(employee=user).first()
+        current_cycle = CurrentWorkCycle.objects.filter(employee=user).first()
 
         if current_cycle:
             self._end_work_session(user, current_cycle)
@@ -30,7 +30,7 @@ class WorkStatusViewSet(ViewSet):
             )
 
     def _start_work_session(self, user):
-        CurrentlyWorkingCycle.objects.create(
+        CurrentWorkCycle.objects.create(
             employee=user,
             company=user.company,
             start_time=timezone.now(),
