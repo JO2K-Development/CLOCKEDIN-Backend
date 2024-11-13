@@ -6,12 +6,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from CLOCKEDIN_Backend.models import User
-from CLOCKEDIN_Backend.models.company import Company
-from CLOCKEDIN_Backend.models.invitation import Invitation
-from CLOCKEDIN_Backend.serializers import InvitationSerializer
-from CLOCKEDIN_Backend.serializers.invite_serializer import AcceptInvitationSerializer
-from CLOCKEDIN_Backend.serializers.user_serializer import UserSerializer
+from CLOCKEDIN_Backend.models import Company, Invitation
+from CLOCKEDIN_Backend.serializers import (
+    AcceptInvitationSerializer,
+    InvitationSerializer,
+)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -71,11 +70,3 @@ class InvitationViewSet(ReadOnlyModelViewSet):
         return Response(
             {"message": "Company joined successfully"}, status=status.HTTP_200_OK
         )
-
-
-class UserViewSet(ReadOnlyModelViewSet):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
