@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from CLOCKEDIN_Backend.models.company import Company
 from CLOCKEDIN_Backend.models.user import User
@@ -24,6 +25,12 @@ class WorkCycle(models.Model):
     is_confirmed_stationary = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def duration(self):
+        if self.end_time and self.start_time:
+            return self.end_time - self.start_time
+        return timezone.timedelta(0)
 
     def __str__(self):
         return f"{self.employee} worked from {self.start_time} to {self.end_time}"

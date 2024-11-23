@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from CLOCKEDIN_Backend.models import Company, Invitation
 from CLOCKEDIN_Backend.serializers import (
@@ -17,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class InvitationViewSet(ReadOnlyModelViewSet):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = InvitationSerializer
     queryset = Invitation.objects.filter(status="pending")

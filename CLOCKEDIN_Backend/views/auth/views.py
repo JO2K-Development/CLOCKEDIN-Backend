@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from CLOCKEDIN_Backend.models.company import Company
+from CLOCKEDIN_Backend.models.role import RoleEnum
 from CLOCKEDIN_Backend.models.user import User
 from CLOCKEDIN_Backend.serializers.custom_register_serializer import (
     CustomRegisterSerializer,
@@ -54,6 +55,9 @@ class CustomRegisterView(RegisterView):
                 company = Company.objects.create(name=company_name)
                 user.company = company
                 user.is_admin = True
+                user.roles.add(RoleEnum.ADMIN.value)
+                user.roles.add(RoleEnum.MANAGER.value)
+                user.roles.add(RoleEnum.EMPLOYEE.value)
                 user.save()
                 logger.debug(f"Admin user {user.email} created company: {company.name}")
 

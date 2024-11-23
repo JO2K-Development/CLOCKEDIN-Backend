@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 from django.db import models
 
 from CLOCKEDIN_Backend.models.company import Company
+from CLOCKEDIN_Backend.models.role import Role
 
 
 class UserManager(BaseUserManager):
@@ -34,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     company = models.ForeignKey(
         Company, on_delete=models.SET_NULL, null=True, blank=True
     )
-    roles = models.ManyToManyField("Role", blank=True)
+    roles = models.ManyToManyField(Role, blank=True)
 
     objects = UserManager()
 
