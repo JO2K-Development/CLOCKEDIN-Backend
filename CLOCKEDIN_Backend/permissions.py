@@ -1,13 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-
-class IsManager(BasePermission):
-    def has_permission(self, request, view):
-        return bool(
-            request.user
-            and request.user.is_authenticated
-            and "manager" in request.user.roles.all()
-        )
+from CLOCKEDIN_Backend.models.role import RoleEnum
 
 
 class IsEmployee(BasePermission):
@@ -15,7 +8,16 @@ class IsEmployee(BasePermission):
         return bool(
             request.user
             and request.user.is_authenticated
-            and "employee" in request.user.roles.all()
+            and RoleEnum.EMPLOYEE.value in request.user.roles.values_list('id', flat=True)
+        )
+
+
+class IsManager(BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            request.user
+            and request.user.is_authenticated
+            and RoleEnum.MANAGER.value in request.user.roles.values_list('id', flat=True)
         )
 
 
@@ -24,5 +26,5 @@ class IsAdmin(BasePermission):
         return bool(
             request.user
             and request.user.is_authenticated
-            and "admin" in request.user.roles.all()
+            and RoleEnum.ADMIN.value in request.user.roles.values_list('id', flat=True)
         )

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from CLOCKEDIN_Backend.models import Company
+from CLOCKEDIN_Backend.models.role import RoleEnum
 
 
 class GoogleLogin(APIView):
@@ -37,7 +38,10 @@ class GoogleLogin(APIView):
                 )
             company = Company.objects.create(name=company_name)
             user.company = company
-            user.is_staff = True  # Assuming is_staff indicates admin status
+            user.is_staff = True
+            user.roles.add(RoleEnum.ADMIN.value)
+            user.roles.add(RoleEnum.MANAGER.value)
+            user.roles.add(RoleEnum.EMPLOYEE.value)
             user.save()
 
         refresh = RefreshToken.for_user(user)

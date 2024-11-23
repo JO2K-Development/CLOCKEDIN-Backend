@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from CLOCKEDIN_Backend.models import User
 
-from .role_serializer import RoleSerializer
+from CLOCKEDIN_Backend.serializers.role_serializer import RoleSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
