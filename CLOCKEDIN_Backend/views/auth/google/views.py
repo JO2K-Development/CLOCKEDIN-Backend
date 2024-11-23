@@ -15,9 +15,13 @@ class GoogleLogin(APIView):
         company_name = request.data.get("company_name", None)
 
         # Verify the token with Google
-        response = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
+        response = requests.get(
+            f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
+        )
         if response.status_code != 200:
-            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         user_info = response.json()
         email = user_info.get("email")
@@ -28,7 +32,8 @@ class GoogleLogin(APIView):
         if is_admin:
             if not company_name:
                 return Response(
-                    {"error": "Company name is required for admin users"}, status=status.HTTP_400_BAD_REQUEST
+                    {"error": "Company name is required for admin users"},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
             company = Company.objects.create(name=company_name)
             user.company = company

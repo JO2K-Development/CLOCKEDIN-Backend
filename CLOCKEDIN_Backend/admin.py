@@ -3,7 +3,7 @@ from django.contrib import admin
 from CLOCKEDIN_Backend.models import (
     AccessIdentifier,
     Company,
-    CurrentlyWorkingCycle,
+    CurrentWorkCycle,
     User,
     UserAccessIdentifier,
     Wage,
@@ -13,7 +13,7 @@ from CLOCKEDIN_Backend.models.invitation import Invitation
 
 admin.site.register(Company)
 admin.site.register(User)
-admin.site.register(CurrentlyWorkingCycle)
+admin.site.register(CurrentWorkCycle)
 admin.site.register(WorkCycle)
 admin.site.register(AccessIdentifier)
 admin.site.register(UserAccessIdentifier)

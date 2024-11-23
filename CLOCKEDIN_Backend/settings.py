@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-yb@$f@%-ih*!8lczv4_wg%!8v5v)lhjf72jp(xy93*gieqg-a&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.0.2.2", '*', 'localhost']
+ALLOWED_HOSTS = ["10.0.2.2", "*", "localhost"]
 ROOT_URLCONF = "CLOCKEDIN_Backend.urls"
 
 # Application definition
@@ -105,7 +105,11 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
-        "APP": {"client_id": SOCIAL_AUTH_GOOGLE_OAUTH2_KEY, "secret": SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET, "key": ""},
+        "APP": {
+            "client_id": SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+            "secret": SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+            "key": "",
+        },
         "EMAIL_AUTHENTICATION": True,
     }
 }
@@ -128,7 +132,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        #TODO: change to IsAuthenticated for production
+        # TODO: change to IsAuthenticated for production
         "rest_framework.permissions.AllowAny",
     ],
 }
@@ -140,7 +144,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #TODO: uncomment for production
+    # TODO: uncomment for production
     #'django.middleware.csrf.CsrfViewMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
