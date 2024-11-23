@@ -9,3 +9,4 @@ from CLOCKEDIN_Backend.models.user import User
 from CLOCKEDIN_Backend.models.user_access_identifiers import UserAccessIdentifier
 from CLOCKEDIN_Backend.models.wage import Wage
 from CLOCKEDIN_Backend.models.work_cycle import WorkCycle
+from CLOCKEDIN_Backend.models.role import Role
