@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
-from CLOCKEDIN_Backend.models import Company, Role
+from CLOCKEDIN_Backend.models.company import Company
+from CLOCKEDIN_Backend.models.role import Role
 
 
 class UserManager(BaseUserManager):

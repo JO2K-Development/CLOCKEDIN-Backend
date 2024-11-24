@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from CLOCKEDIN_Backend.models import Company, Invitation, RoleEnum
+from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, RoleEnum
 from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
 from CLOCKEDIN_Backend.serializers import AcceptInvitationSerializer, InvitationSerializer
 
@@ -18,7 +18,7 @@ class InvitationViewSet(ReadOnlyModelViewSet):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAtLeastEmployee]
     serializer_class = InvitationSerializer
-    queryset = Invitation.objects.filter(status="pending")
+    queryset = Invitation.objects.filter(status=InvitationStatus.PENDING)
 
     def get_queryset(self):
         # Filter invitations to only those that belong to the authenticated user
@@ -55,7 +55,7 @@ class InvitationViewSet(ReadOnlyModelViewSet):
             return Response({"error": "Company not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Accept the invitation and link the user to the company
-        invitation.status = "accepted"
+        invitation.status = InvitationStatus.ACCEPTED
         invitation.save()
         request.user.company = company
         request.user.position = invitation.position
