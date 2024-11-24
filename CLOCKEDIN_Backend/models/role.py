@@ -3,9 +3,9 @@ from enum import Enum
 from django.db import models
 
 class RoleEnum(Enum):
-    ADMIN = 1
-    MANAGER = 2
-    EMPLOYEE = 3
+    Admin = 1
+    Manager = 2
+    Employee = 3
 
 
 class Role(models.Model):

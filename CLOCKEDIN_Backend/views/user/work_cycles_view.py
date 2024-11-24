@@ -3,6 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from CLOCKEDIN_Backend.filters.work_cycles import WorkCycleFilter
 from CLOCKEDIN_Backend.models import WorkCycle
 from CLOCKEDIN_Backend.permissions import IsEmployee
 from CLOCKEDIN_Backend.serializers.work_cycle_serializer import WorkCycleSerializer
@@ -20,7 +21,7 @@ class WorkCyclesViewSet(ReadOnlyModelViewSet):
     serializer_class = WorkCycleSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['start_time', 'end_time', 'is_confirmed_stationary', 'start_method', 'end_method']
+    filterset_class = WorkCycleFilter
 
     def get_queryset(self):
         return WorkCycle.objects.filter(employee=self.request.user).order_by('-start_time')

@@ -8,7 +8,7 @@ class IsEmployee(BasePermission):
         return bool(
             request.user
             and request.user.is_authenticated
-            and RoleEnum.EMPLOYEE.value in request.user.roles.values_list('id', flat=True)
+            and RoleEnum.Employee.value in request.user.roles.values_list('id', flat=True)
         )
 
 
@@ -17,7 +17,7 @@ class IsManager(BasePermission):
         return bool(
             request.user
             and request.user.is_authenticated
-            and RoleEnum.MANAGER.value in request.user.roles.values_list('id', flat=True)
+            and RoleEnum.Manager.value in request.user.roles.values_list('id', flat=True)
         )
 
 
@@ -26,5 +26,5 @@ class IsAdmin(BasePermission):
         return bool(
             request.user
             and request.user.is_authenticated
-            and RoleEnum.ADMIN.value in request.user.roles.values_list('id', flat=True)
+            and RoleEnum.Admin.value in request.user.roles.values_list('id', flat=True)
         )

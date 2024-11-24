@@ -39,9 +39,9 @@ class GoogleLogin(APIView):
             company = Company.objects.create(name=company_name)
             user.company = company
             user.is_staff = True
-            user.roles.add(RoleEnum.ADMIN.value)
-            user.roles.add(RoleEnum.MANAGER.value)
-            user.roles.add(RoleEnum.EMPLOYEE.value)
+            user.roles.add(RoleEnum.Admin.value)
+            user.roles.add(RoleEnum.Manager.value)
+            user.roles.add(RoleEnum.Employee.value)
             user.save()
 
         refresh = RefreshToken.for_user(user)
