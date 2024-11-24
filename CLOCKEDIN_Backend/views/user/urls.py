@@ -1,10 +1,10 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .invitation_view import InvitationViewSet
-from .user_view import UserViewSet
-from .work_cycles_view import WorkCyclesViewSet
-from .work_status_view import WorkStatusViewSet
+from CLOCKEDIN_Backend.views.user.invitation_view import InvitationViewSet
+from CLOCKEDIN_Backend.views.user.user_view import UserViewSet
+from CLOCKEDIN_Backend.views.user.work_cycles_view import WorkCyclesViewSet
+from CLOCKEDIN_Backend.views.user.work_status_view import WorkStatusViewSet
 
 router = DefaultRouter()
 router.register(r"user", UserViewSet, basename="user")

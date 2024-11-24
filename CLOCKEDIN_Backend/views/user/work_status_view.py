@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from CLOCKEDIN_Backend.models import CurrentWorkCycle, WorkCycle
-from CLOCKEDIN_Backend.permissions import IsEmployee
+from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
 
 
 class WorkStatusViewSet(ViewSet):
-    permission_classes = [IsEmployee]
+    permission_classes = [IsAtLeastEmployee]
 
     @action(detail=False, methods=["post"])
     @transaction.atomic
@@ -20,14 +20,10 @@ class WorkStatusViewSet(ViewSet):
 
         if current_cycle:
             self._end_work_session(user, current_cycle)
-            return Response(
-                {"message": "Work session ended and saved."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Work session ended and saved."}, status=status.HTTP_200_OK)
         else:
             self._start_work_session(user)
-            return Response(
-                {"message": "Work session started."}, status=status.HTTP_201_CREATED
-            )
+            return Response({"message": "Work session started."}, status=status.HTTP_201_CREATED)
 
     def _start_work_session(self, user):
         CurrentWorkCycle.objects.create(

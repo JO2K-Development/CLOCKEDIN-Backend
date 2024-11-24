@@ -1,6 +1,6 @@
 from django.db import models
 
-from .company import Company
+from CLOCKEDIN_Backend.models import Company
 
 
 class Invitation(models.Model):

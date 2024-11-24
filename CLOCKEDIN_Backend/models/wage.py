@@ -1,7 +1,6 @@
 from django.db import models
 
-from CLOCKEDIN_Backend.models.company import Company
-from CLOCKEDIN_Backend.models.user import User
+from CLOCKEDIN_Backend.models import Company, User
 
 
 class Wage(models.Model):

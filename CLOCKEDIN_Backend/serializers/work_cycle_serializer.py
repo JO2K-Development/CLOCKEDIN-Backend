@@ -9,11 +9,11 @@ class WorkCycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkCycle
         fields = [
-            'id',
-            'start_time',
-            'end_time',
-            'duration',
-            'is_confirmed_stationary',
-            'start_method',
-            'end_method',
+            "id",
+            "start_time",
+            "end_time",
+            "duration",
+            "is_confirmed_stationary",
+            "start_method",
+            "end_method",
         ]

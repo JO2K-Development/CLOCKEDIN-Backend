@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from CLOCKEDIN_Backend.models.role import Role
+from CLOCKEDIN_Backend.models import Role
 
 
 class RoleSerializer(serializers.ModelSerializer):

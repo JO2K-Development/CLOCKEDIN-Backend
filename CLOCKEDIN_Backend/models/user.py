@@ -1,12 +1,7 @@
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
-from CLOCKEDIN_Backend.models.company import Company
-from CLOCKEDIN_Backend.models.role import Role
+from CLOCKEDIN_Backend.models import Company, Role
 
 
 class UserManager(BaseUserManager):
@@ -32,10 +27,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     position = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    company = models.ForeignKey(
-        Company, on_delete=models.SET_NULL, null=True, blank=True
-    )
-    roles = models.ManyToManyField(Role, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = UserManager()
 

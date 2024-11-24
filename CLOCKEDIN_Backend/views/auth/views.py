@@ -3,20 +3,18 @@ import logging
 from dj_rest_auth.registration.views import RegisterView
 from django.db import IntegrityError, transaction
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from CLOCKEDIN_Backend.models.company import Company
-from CLOCKEDIN_Backend.models.role import RoleEnum
-from CLOCKEDIN_Backend.models.user import User
-from CLOCKEDIN_Backend.serializers.custom_register_serializer import (
-    CustomRegisterSerializer,
-)
+from CLOCKEDIN_Backend.models import Company, Role, RoleEnum, User
+from CLOCKEDIN_Backend.serializers import CustomRegisterSerializer
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
 class CustomRegisterView(RegisterView):
+    permission_classes = [AllowAny]
     serializer_class = CustomRegisterSerializer
 
     @transaction.atomic
@@ -35,9 +33,7 @@ class CustomRegisterView(RegisterView):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response(
-                {"error": "User not found."}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
         # Check if the user is an admin and create a company
         if request.data.get("is_admin", False):
@@ -55,9 +51,7 @@ class CustomRegisterView(RegisterView):
                 company = Company.objects.create(name=company_name)
                 user.company = company
                 user.is_admin = True
-                user.roles.add(RoleEnum.Admin.value)
-                user.roles.add(RoleEnum.Manager.value)
-                user.roles.add(RoleEnum.Employee.value)
+                user.role = Role.objects.get(id=RoleEnum.Admin.value)
                 user.save()
                 logger.debug(f"Admin user {user.email} created company: {company.name}")
 

@@ -1,3 +1,4 @@
+from CLOCKEDIN_Backend.serializers.custom_register_serializer import CustomRegisterSerializer
 from CLOCKEDIN_Backend.serializers.invite_serializer import (
     AcceptInvitationResponseSerializer,
     AcceptInvitationSerializer,

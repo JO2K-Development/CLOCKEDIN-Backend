@@ -2,6 +2,7 @@ from enum import Enum
 
 from django.db import models
 
+
 class RoleEnum(Enum):
     Admin = 1
     Manager = 2
