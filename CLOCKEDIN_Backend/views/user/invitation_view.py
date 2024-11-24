@@ -2,24 +2,23 @@ import logging
 
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from CLOCKEDIN_Backend.models import Company, Invitation
-from CLOCKEDIN_Backend.serializers import (
-    AcceptInvitationSerializer,
-    InvitationSerializer,
-)
+from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, RoleEnum
+from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
+from CLOCKEDIN_Backend.serializers import AcceptInvitationSerializer, InvitationSerializer
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
 class InvitationViewSet(ReadOnlyModelViewSet):
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAtLeastEmployee]
     serializer_class = InvitationSerializer
-    queryset = Invitation.objects.filter(status="pending")
+    queryset = Invitation.objects.filter(status=InvitationStatus.PENDING)
 
     def get_queryset(self):
         # Filter invitations to only those that belong to the authenticated user
@@ -37,9 +36,7 @@ class InvitationViewSet(ReadOnlyModelViewSet):
         invitation_id = serializer.validated_data.get("invitation_id")
 
         try:
-            invitation = Invitation.objects.get(
-                id=invitation_id, email=request.user.email
-            )
+            invitation = Invitation.objects.get(id=invitation_id, email=request.user.email)
         except Invitation.DoesNotExist:
             return Response(
                 {"error": "Invitation not found or does not belong to this user"},
@@ -55,18 +52,14 @@ class InvitationViewSet(ReadOnlyModelViewSet):
         try:
             company = Company.objects.get(id=invitation.company_id)
         except Company.DoesNotExist:
-            return Response(
-                {"error": "Company not found"}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"error": "Company not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Accept the invitation and link the user to the company
-        invitation.status = "accepted"
+        invitation.status = InvitationStatus.ACCEPTED
         invitation.save()
         request.user.company = company
         request.user.position = invitation.position
-        request.user.roles.set(invitation.roles.all())
+        request.user.role.id = RoleEnum.Employee.value
         request.user.save()
 
-        return Response(
-            {"message": "Company joined successfully"}, status=status.HTTP_200_OK
-        )
+        return Response({"message": "Company joined successfully"}, status=status.HTTP_200_OK)

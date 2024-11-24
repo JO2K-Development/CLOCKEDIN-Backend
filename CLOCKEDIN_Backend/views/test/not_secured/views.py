@@ -12,9 +12,7 @@ class UnsecuredView(APIView):
     def get(self, request):
         try:
             return JsonResponse(
-                {
-                    "message": f"This is a not-secured get endpoint! {request.user.is_authenticated}, {request.user}"
-                }
+                {"message": f"This is a not-secured get endpoint! {request.user.is_authenticated}, {request.user}"}
             )
         except APIException as e:
             return Response({"error": str(e)}, status=e.status_code)
@@ -27,9 +25,7 @@ class UnsecuredView(APIView):
     def post(self, request):
         try:
             return JsonResponse(
-                {
-                    "message": f"This is a unsecured post endpoint! {request.user.is_authenticated}, {request.user}"
-                }
+                {"message": f"This is a unsecured post endpoint! {request.user.is_authenticated}, {request.user}"}
             )
         except APIException as e:
             return Response({"error": str(e)}, status=e.status_code)

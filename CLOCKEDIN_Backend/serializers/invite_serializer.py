@@ -9,7 +9,7 @@ class InvitationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invitation
-        fields = ["id", "email", "company_id", "company_name"]
+        fields = ["id", "email", "position", "role"]
 
 
 class AcceptInvitationSerializer(serializers.Serializer):

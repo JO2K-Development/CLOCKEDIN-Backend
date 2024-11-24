@@ -8,14 +8,10 @@ class SecuredView(APIView):
 
     def get(self, request):
         return JsonResponse(
-            {
-                "message": f"This is a secured get endpoint! {request.user.is_authenticated}, {request.user}"
-            }
+            {"message": f"This is a secured get endpoint! {request.user.is_authenticated}, {request.user}"}
         )
 
     def post(self, request):
         return JsonResponse(
-            {
-                "message": f"This is a secured post endpoint! {request.user.is_authenticated}, {request.user}"
-            }
+            {"message": f"This is a secured post endpoint! {request.user.is_authenticated}, {request.user}"}
         )

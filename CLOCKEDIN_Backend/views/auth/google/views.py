@@ -1,27 +1,27 @@
 import requests
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from CLOCKEDIN_Backend.models import Company
+from CLOCKEDIN_Backend.models.role import Role, RoleEnum
 
 
 class GoogleLogin(APIView):
+    authentication_classes = [AllowAny]
+
     def post(self, request):
         token = request.data.get("token")
         is_admin = request.data.get("is_admin", False)
         company_name = request.data.get("company_name", None)
 
         # Verify the token with Google
-        response = requests.get(
-            f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
-        )
+        response = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
         if response.status_code != 200:
-            return Response(
-                {"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
         user_info = response.json()
         email = user_info.get("email")
@@ -37,7 +37,8 @@ class GoogleLogin(APIView):
                 )
             company = Company.objects.create(name=company_name)
             user.company = company
-            user.is_staff = True  # Assuming is_staff indicates admin status
+            user.is_staff = True
+            user.role = Role.objects.get(id=RoleEnum.Admin.value)
             user.save()
 
         refresh = RefreshToken.for_user(user)
