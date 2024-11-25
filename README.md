@@ -33,6 +33,11 @@ The project is currently under development, with the first version scheduled for
   - Log entry and exit using cameras and QR codes.
   - Achieve a 95% success rate in employee logins within the first month of operation.
 
+The mobile app is available in the [CLOCKEDIN-Frontend repository](https://github.com/JO2K-Development/CLOCKEDIN-Frontend).
+
+![image](https://github.com/user-attachments/assets/bf635060-7a49-4931-b503-d0be121922e5) 
+
+
 ---
 
 ## 💡 **Development Plan**
@@ -73,6 +78,8 @@ The project is currently under development, with the first version scheduled for
 - Secure storage of historical data.
 - Data filtering for reports and statistics.
 - Real-time work session logging.
+
+
 
 ---
 
