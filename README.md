@@ -1,3 +1,81 @@
+# Employee Work Time Monitoring System [CLOCKEDIN]
+
+## 📢 **About the Project**
+
+This system is a comprehensive solution for monitoring employee work time, designed for small and medium-sized businesses seeking affordable tools for managing employee hours. The main goals of the project include:
+
+- **Real-time work time monitoring** for employees.
+- **Streamlining employee data management** through the admin panel.
+- **Support for supervisors and employees** with accessible statistics, data filtering, and editable work hours.
+
+The project is currently under development, with the first version scheduled for completion by February 28, 2025.
+
+---
+
+## 🎯 **Project Goals**
+
+### Final Goal:
+- Delivering a fully functional system with three main modules:
+  - **Admin Panel**: manage employees and generate reports.
+  - **User Panel**: view work hours and statistics.
+  - **Reader Mode**: log employee entry and exit using QR codes.
+
+### Detailed Requirements:
+- **User Panel**:
+  - Display historical data on work hours and overtime.
+  - Filter data by date, week, or month.
+  - Calculate salaries based on hours worked.
+- **Admin Panel**:
+  - Add, edit, and delete employees.
+  - Generate work time reports.
+  - Manage hourly rates and oversee access areas.
+- **Reader Mode**:
+  - Log entry and exit using cameras and QR codes.
+  - Achieve a 95% success rate in employee logins within the first month of operation.
+
+---
+
+## 💡 **Development Plan**
+
+### Phase I: Core Functionality (by February 2025)
+1. **Web Application**:
+   - OAuth2 login.
+   - Record work start and end times.
+   - View work statistics and filter historical data.
+2. **Backend (API)**:
+   - Store historical data and support filtering.
+   - OAuth2 authentication and login.
+   - Mechanism for tracking currently active employees.
+3. **Mobile Application**:
+   - OAuth2 login support.
+   - QR code verification feature.
+4. **Reader Mode**:
+   - Implement devices for logging entry and exit times.
+
+### Phase II: Advanced Modules (after 2025)
+- **Leave and Absence Management**: submit leave requests, sick leave, and other absences.
+- **Contract Authentication**: digitally sign legal documents.
+- **Automated Payroll**: generate salary transfers.
+- **Google Calendar Integration**: synchronize events and schedules.
+
+---
+
+## 🛠 **Technologies and Architecture**
+
+### Technologies:
+- **Backend**: Django & Python.
+- **Frontend**: React & TypeScript.
+- **Mobile Application**: Flutter.
+- **Database**: MySQL.
+- **Authentication**: OAuth2.
+
+### API Features:
+- Secure storage of historical data.
+- Data filtering for reports and statistics.
+- Real-time work session logging.
+
+---
+
 # CLOCKEDIN - API
 
 ## How to start
