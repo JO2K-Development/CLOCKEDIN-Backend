@@ -35,13 +35,13 @@ class CustomRegisterView(RegisterView):
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Check if the user is an admin and create a company
+        # Check if the user is an manager and create a company
         if request.data.get("is_admin", False):
             company_name = request.data.get("company_name")
             if not company_name:
                 logger.warning("Admin registration requires a company name")
                 return Response(
-                    {"error": "Company name is required for admin registration"},
+                    {"error": "Company name is required for manager registration"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 

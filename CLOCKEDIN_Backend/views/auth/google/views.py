@@ -32,7 +32,7 @@ class GoogleLogin(APIView):
         if is_admin:
             if not company_name:
                 return Response(
-                    {"error": "Company name is required for admin users"},
+                    {"error": "Company name is required for manager users"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             company = Company.objects.create(name=company_name)
