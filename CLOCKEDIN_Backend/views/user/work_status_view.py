@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from CLOCKEDIN_Backend.models import CurrentWorkCycle, WorkCycle
+from CLOCKEDIN_Backend.models.work_cycle import WorkCycleActionType
 from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
 
 
@@ -30,7 +31,7 @@ class WorkStatusViewSet(ViewSet):
             employee=user,
             company=user.company,
             start_time=timezone.now(),
-            start_method="manual",
+            start_method=WorkCycleActionType.APP,
         )
 
     def _end_work_session(self, user, current_cycle):
@@ -40,6 +41,6 @@ class WorkStatusViewSet(ViewSet):
             start_time=current_cycle.start_time,
             end_time=timezone.now(),
             start_method=current_cycle.start_method,
-            end_method="manual",
+            end_method=WorkCycleActionType.APP,
         )
         current_cycle.delete()
