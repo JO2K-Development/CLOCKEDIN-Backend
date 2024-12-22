@@ -7,8 +7,7 @@ from rest_framework.views import APIView
 from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, Role, RoleEnum
 from CLOCKEDIN_Backend.permissions import IsAtLeastManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
-from CLOCKEDIN_Backend.utils.mailing.canceled_invitation_mail import send_cancelled_invitation_email
-from CLOCKEDIN_Backend.utils.mailing.welcome_mail_sender import send_welcome_email
+from CLOCKEDIN_Backend.utils.mailing import send_cancelled_invitation_email, send_welcome_email
 
 
 class InviteView(APIView):
