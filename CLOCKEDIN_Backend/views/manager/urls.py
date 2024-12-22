@@ -1,7 +1,7 @@
 from django.urls import path
 
-from CLOCKEDIN_Backend.views.manager.invitation_view import InviteView
+from CLOCKEDIN_Backend.views.manager.invitation_view import InviteViewSet
 
 urlpatterns = [
-    path("invite/", InviteView.as_view(), name="invite"),
+    path("invite/", InviteViewSet.as_view(), name="invite"),
 ]

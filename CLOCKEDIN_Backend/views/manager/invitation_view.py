@@ -1,19 +1,18 @@
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
 from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, Role, RoleEnum
 from CLOCKEDIN_Backend.permissions import IsAtLeastManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
 from CLOCKEDIN_Backend.utils.mailing import send_cancelled_invitation_email, send_welcome_email
 
-
-class InviteView(APIView):
+class InviteViewSet(ViewSet):
     permission_classes = [IsAtLeastManager]
 
-    def post(self, request):
+    def create(self, request):
         # Validate company ID
         company_id = request.user.company_id
         if not company_id:
@@ -45,14 +44,14 @@ class InviteView(APIView):
         # Create and save the invitation
         invitation = Invitation(email=email, company=company, position=position, role=role)
         invitation.save()
-        # invitation.roles.set(roles)  # Assign roles
 
-        return JsonResponse(
-            {"message": f"Invitation sent and user created! {request.user.is_authenticated}, {request.user}"},
-            status=status.HTTP_200_OK,
+        return Response(
+            {"message": "Invitation sent and user created!"},
+            status=status.HTTP_201_CREATED,
         )
 
-    def delete(self, request):
+    @action(detail=False, methods=['delete'], url_path='cancel')
+    def cancel(self, request):
         # Validate company ID
         company_id = request.user.company_id
         if not company_id:
@@ -62,22 +61,25 @@ class InviteView(APIView):
             )
 
         # Get email value
-        params = request.query_params
-        inv_email = params.get("email")  # Dont wheter to check if the email exists
-
-        # Get invitation related to that email and company
+        inv_email = request.query_params.get("email")
         if not inv_email:
             return Response(
                 {"error": "Email not provided in the parameters"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        invitation = get_object_or_404(Invitation, email=inv_email, company=company_id, status=InvitationStatus.PENDING)
+        # Get invitation related to that email and company
+        invitation = get_object_or_404(
+            Invitation,
+            email=inv_email,
+            company=company_id,
+            status=InvitationStatus.PENDING
+        )
         invitation.delete()
 
         send_cancelled_invitation_email(inv_email)
 
-        return JsonResponse(
-            {"message": f"Invitation has been cancelled! {request.user.is_authenticated}, {request.user}"},
+        return Response(
+            {"message": "Invitation has been cancelled!"},
             status=status.HTTP_200_OK,
         )
