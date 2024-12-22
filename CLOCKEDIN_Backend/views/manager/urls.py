@@ -1,7 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
-from CLOCKEDIN_Backend.views.manager.invitation_view import InviteViewSet
+from CLOCKEDIN_Backend.views.manager.invitation_view import InvitationViewSet
+
+router = DefaultRouter()
+router.register(r"invitations", InvitationViewSet, basename="invitation")
+
 
 urlpatterns = [
-    path("invite/", InviteViewSet.as_view(), name="invite"),
+    path("", include(router.urls)),
 ]

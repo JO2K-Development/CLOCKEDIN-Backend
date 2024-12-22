@@ -9,7 +9,7 @@ from CLOCKEDIN_Backend.permissions import IsAtLeastManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
 from CLOCKEDIN_Backend.utils.mailing import send_cancelled_invitation_email, send_welcome_email
 
-class InviteViewSet(ViewSet):
+class InvitationViewSet(ViewSet):
     permission_classes = [IsAtLeastManager]
 
     def create(self, request):
