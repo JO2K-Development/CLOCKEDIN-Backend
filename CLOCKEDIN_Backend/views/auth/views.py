@@ -19,9 +19,6 @@ class CustomRegisterView(RegisterView):
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        # Call the parent class's create method to handle user creation and email sending
-        response = super().create(request, *args, **kwargs)
-
         # Fetch the user data directly using the email from the request
         email = request.data.get("email")
         if not email:
@@ -30,11 +27,17 @@ class CustomRegisterView(RegisterView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {"error": "User with this email already exists."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
+        # Call the parent class's create method to handle user creation and email sending
+        response = super().create(request, *args, **kwargs)
+        user = User.objects.get(email=email)
+        user.roles.add(Role.objects.get(name=RoleEnum.Employee.value))
+        user.save()
         # Check if the user is an manager and create a company
         if request.data.get("is_admin", False):
             company_name = request.data.get("company_name")
@@ -51,7 +54,7 @@ class CustomRegisterView(RegisterView):
                 company = Company.objects.create(name=company_name)
                 user.company = company
                 user.is_admin = True
-                user.role = Role.objects.get(id=RoleEnum.Admin.value)
+                user.roles.add(Role.objects.get(name=RoleEnum.Admin.value))
                 user.save()
                 logger.debug(f"Admin user {user.email} created company: {company.name}")
 

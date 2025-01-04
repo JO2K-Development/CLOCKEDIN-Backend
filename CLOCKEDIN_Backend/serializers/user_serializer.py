@@ -17,4 +17,5 @@ class UserSerializer(serializers.ModelSerializer):
             "position",
             "roles",
             "company_id",
+            "manager_id",
         ]

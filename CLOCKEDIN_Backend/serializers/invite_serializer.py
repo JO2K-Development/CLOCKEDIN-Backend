@@ -4,12 +4,25 @@ from CLOCKEDIN_Backend.models import Invitation
 
 
 class InvitationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Invitation
+        fields = ['email', 'position', 'roles']
+
+    def get_roles(self, obj):
+        return [role.name for role in obj.roles.all()]
+
+
+class InvitationInfoSerializer(serializers.ModelSerializer):
     company_id = serializers.IntegerField(source="company.id")
     company_name = serializers.CharField(source="company.name")
 
     class Meta:
         model = Invitation
-        fields = ["company_id", "company_name", "email", "position", "role"]
+        fields = ["company_id", "company_name", 'id', 'email', 'position', 'roles']
+
+    def get_roles(self, obj):
+        return [role.name for role in obj.roles.all()]
 
 
 class AcceptInvitationSerializer(serializers.Serializer):

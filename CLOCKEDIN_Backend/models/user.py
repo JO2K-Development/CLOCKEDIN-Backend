@@ -29,7 +29,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
+    roles = models.ManyToManyField(Role, blank=True)
+    manager = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees'
+    ) 
 
     objects = UserManager()
 
