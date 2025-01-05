@@ -7,7 +7,7 @@ class InvitationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invitation
-        fields = ['email', 'position', 'roles']
+        fields = ["email", "position", "roles"]
 
     def get_roles(self, obj):
         return [role.name for role in obj.roles.all()]
@@ -19,7 +19,7 @@ class InvitationInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invitation
-        fields = ["company_id", "company_name", 'id', 'email', 'position', 'roles']
+        fields = ["company_id", "company_name", "id", "email", "position", "roles"]
 
     def get_roles(self, obj):
         return [role.name for role in obj.roles.all()]
