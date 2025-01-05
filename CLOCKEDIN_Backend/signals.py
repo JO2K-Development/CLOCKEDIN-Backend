@@ -7,4 +7,4 @@ from CLOCKEDIN_Backend.models import Role, RoleEnum
 @receiver(post_migrate)
 def create_default_roles(sender, **kwargs):
     for role in RoleEnum:
-        Role.objects.get_or_create(id=role.value, name=role.name)
+        Role.objects.get_or_create(name=role.value)

@@ -5,7 +5,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from CLOCKEDIN_Backend.filters.work_cycles import WorkCycleFilter
 from CLOCKEDIN_Backend.models import WorkCycle
-from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
+from CLOCKEDIN_Backend.permissions import IsEmployee
 from CLOCKEDIN_Backend.serializers.work_cycle_serializer import WorkCycleSerializer
 
 
@@ -17,7 +17,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class WorkCyclesViewSet(ReadOnlyModelViewSet):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAtLeastEmployee]
+    permission_classes = [IsEmployee]
     serializer_class = WorkCycleSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]

@@ -6,9 +6,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, RoleEnum
-from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
-from CLOCKEDIN_Backend.serializers import AcceptInvitationSerializer, InvitationSerializer
+from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus
+from CLOCKEDIN_Backend.permissions import IsEmployee
+from CLOCKEDIN_Backend.serializers import AcceptInvitationSerializer
+from CLOCKEDIN_Backend.serializers.invite_serializer import InvitationInfoSerializer
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -16,8 +17,8 @@ logger = logging.getLogger(__name__)
 
 class InvitationViewSet(ReadOnlyModelViewSet):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAtLeastEmployee]
-    serializer_class = InvitationSerializer
+    permission_classes = [IsEmployee]
+    serializer_class = InvitationInfoSerializer
     queryset = Invitation.objects.filter(status=InvitationStatus.PENDING)
 
     def get_queryset(self):
@@ -59,7 +60,7 @@ class InvitationViewSet(ReadOnlyModelViewSet):
         invitation.save()
         request.user.company = company
         request.user.position = invitation.position
-        request.user.role.id = RoleEnum.Employee.value
+        request.user.roles.set(invitation.roles.all())
         request.user.save()
 
         return Response({"message": "Company joined successfully"}, status=status.HTTP_200_OK)

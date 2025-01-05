@@ -14,6 +14,6 @@ class Invitation(models.Model):
     email = models.EmailField()
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     position = models.CharField(max_length=50, default="Employee")
-    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
+    roles = models.ManyToManyField(Role, blank=True)
     status = models.CharField(max_length=20, choices=InvitationStatus.choices, default=InvitationStatus.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
