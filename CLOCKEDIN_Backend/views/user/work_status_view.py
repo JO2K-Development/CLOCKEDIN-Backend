@@ -7,11 +7,11 @@ from rest_framework.viewsets import ViewSet
 
 from CLOCKEDIN_Backend.models import CurrentWorkCycle, WorkCycle
 from CLOCKEDIN_Backend.models.work_cycle import WorkCycleActionType
-from CLOCKEDIN_Backend.permissions import IsAtLeastEmployee
+from CLOCKEDIN_Backend.permissions import IsEmployee
 
 
 class WorkStatusViewSet(ViewSet):
-    permission_classes = [IsAtLeastEmployee]
+    permission_classes = [IsEmployee]
 
     @action(detail=False, methods=["post"])
     @transaction.atomic

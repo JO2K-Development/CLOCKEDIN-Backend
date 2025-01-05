@@ -5,13 +5,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, RoleEnum, Role
-from CLOCKEDIN_Backend.permissions import IsAtLeastManager
+from CLOCKEDIN_Backend.permissions import IsManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
 from CLOCKEDIN_Backend.utils.mailing import send_cancelled_invitation_email, send_welcome_email
 
 
 class InvitationViewSet(ViewSet):
-    permission_classes = [IsAtLeastManager]
+    permission_classes = [IsManager]
 
     def create(self, request):
         # Validate company ID
