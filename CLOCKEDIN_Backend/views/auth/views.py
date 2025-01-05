@@ -54,7 +54,8 @@ class CustomRegisterView(RegisterView):
                 company = Company.objects.create(name=company_name)
                 user.company = company
                 user.is_admin = True
-                user.roles.add(Role.objects.get(name=RoleEnum.Admin.value))
+                for role in RoleEnum:
+                    user.roles.add(Role.objects.get(name=role.value))
                 user.save()
                 logger.debug(f"Admin user {user.email} created company: {company.name}")
 
