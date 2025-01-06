@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from CLOCKEDIN_Backend.models import Company, Invitation, User, Role
+from CLOCKEDIN_Backend.models.role import RoleEnum
 from CLOCKEDIN_Backend.permissions import IsAdmin, IsManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
 from CLOCKEDIN_Backend.utils.mailing.canceled_invitation_mail import (
@@ -102,11 +103,14 @@ class RemoveEmployeeView(APIView):
         if user_id is None:
             return JsonResponse({"error": "user_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        User.objects.get(id=user_id).update(company_id=None)
+        user = User.objects.get(id=user_id)
+        user.company_id=None
+        user.roles.clear()
+        user.save()
         return JsonResponse({"message": "User removed from company"}, status=status.HTTP_200_OK)
 
 
-class CompanyEmployeeStatusView(APIView):
+class EmployeeRolesView(APIView):
     permission_classes = [IsAdmin, IsManager]
 
     def patch(self, request):
@@ -120,21 +124,31 @@ class CompanyEmployeeStatusView(APIView):
             return JsonResponse({"error": "Id not provided"}, status=status.HTTP_400_BAD_REQUEST)
         
         body = request.data
-        if "role" in body:            
-            # TODO: handles current version of app (three basic roles),
-            # doesn't handle multiple roles assignment
-            acceptable = ["Manager", "Employee"]
-            new_role = request.data["role"]
-            if new_role not in acceptable:
-                return JsonResponse({"error": "Invalid role"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            
-            new_role_id = Role.objects.get(role=new_role).id
-            get_object_or_404(Role, user_id=user_id).update(role_id=new_role_id)
+        if "new_role" in body:
+            allowed_roles = [RoleEnum.MANAGER.name, RoleEnum.EMPLOYEE.name]
+            if body["new_role"] not in allowed_roles:
+                return JsonResponse({"error": "Incorrect"}, status=status.HTTP_400_BAD_REQUEST)
+            user = get_object_or_404(User, id=user_id)
+            role = get_object_or_404(Role, name=body["new_role"])
+            user.role = role
+            user.save()
             return JsonResponse({"message": "User role changed"}, status=status.HTTP_200_OK)
         
+class EmployeePositionView(APIView):
+    def patch(self, request):
+        """change user roles"""
+        company_id = request.user.company_id
+        if not company_id:
+            return JsonResponse({"error": "User is not assigned to any company"}, status=status.HTTP_400_BAD_REQUEST)
         
+        user_id = request.data.get("user_id", None)
+        if user_id is None:
+            return JsonResponse({"error": "Id not provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        body = request.data
         if "position" in body:
-            get_object_or_404(User, id=user_id).update(position=request.data["position"])
+            user = get_object_or_404(User, id=user_id)
+            user.position = request.data["position"]  
+            user.save()         
             return JsonResponse({"message": "User position changed"}, status=status.HTTP_200_OK)
         
