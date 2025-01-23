@@ -1,4 +1,4 @@
-from rest_framework import status, serializers
+from rest_framework import serializers, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -14,20 +14,20 @@ class WorkCyclesViewSet(ModelViewSet):
     permission_classes = [IsManager]
 
     def perform_create(self, serializer):
-        start_time = serializer.validated_data.get('start_time')
-        end_time = serializer.validated_data.get('end_time')
+        start_time = serializer.validated_data.get("start_time")
+        end_time = serializer.validated_data.get("end_time")
         if start_time >= end_time:
             raise serializers.ValidationError("Start time must be before end time.")
         serializer.save()
 
     def perform_update(self, serializer):
-        start_time = serializer.validated_data.get('start_time')
-        end_time = serializer.validated_data.get('end_time')
+        start_time = serializer.validated_data.get("start_time")
+        end_time = serializer.validated_data.get("end_time")
         if start_time >= end_time:
             raise serializers.ValidationError("Start time must be before end time.")
         serializer.save()
 
-    @action(detail=True, methods=['delete'], url_path='delete-cycle')
+    @action(detail=True, methods=["delete"], url_path="delete-cycle")
     def delete_cycle(self, request, pk=None):
         work_cycle = self.get_object()
         work_cycle.delete()

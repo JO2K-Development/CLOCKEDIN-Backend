@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, RoleEnum, Role
+from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus, Role, RoleEnum
 from CLOCKEDIN_Backend.permissions import IsManager
 from CLOCKEDIN_Backend.serializers import InvitationSerializer
 from CLOCKEDIN_Backend.utils.mailing import send_cancelled_invitation_email, send_welcome_email
@@ -59,7 +59,7 @@ class InvitationViewSet(ViewSet):
             status=status.HTTP_201_CREATED,
         )
 
-    @action(detail=False, methods=['delete'], url_path='cancel')
+    @action(detail=False, methods=["delete"], url_path="cancel")
     def cancel(self, request):
         # Validate company ID
         company_id = request.user.company_id
@@ -78,12 +78,7 @@ class InvitationViewSet(ViewSet):
             )
 
         # Get invitation related to that email and company
-        invitation = get_object_or_404(
-            Invitation,
-            email=inv_email,
-            company=company_id,
-            status=InvitationStatus.PENDING
-        )
+        invitation = get_object_or_404(Invitation, email=inv_email, company=company_id, status=InvitationStatus.PENDING)
         invitation.delete()
 
         send_cancelled_invitation_email(inv_email)
@@ -92,4 +87,3 @@ class InvitationViewSet(ViewSet):
             {"message": "Invitation has been cancelled!"},
             status=status.HTTP_200_OK,
         )
-

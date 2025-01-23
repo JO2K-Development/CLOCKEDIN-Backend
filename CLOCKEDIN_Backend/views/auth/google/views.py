@@ -15,8 +15,6 @@ class GoogleLogin(APIView):
 
     def post(self, request):
         token = request.data.get("token")
-        is_admin = request.data.get("is_admin", False)
-        company_name = request.data.get("company_name", None)
 
         # Verify the token with Google
         response = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
@@ -28,18 +26,6 @@ class GoogleLogin(APIView):
         User = get_user_model()
 
         user, created = User.objects.get_or_create(email=email)
-
-        if is_admin:
-            if not company_name:
-                return Response(
-                    {"error": "Company name is required for manager users"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-            company = Company.objects.create(name=company_name)
-            user.company = company
-            user.is_staff = True
-            user.role = Role.objects.get(id=RoleEnum.Admin.value)
-            user.save()
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)

@@ -3,9 +3,11 @@ from django.db import models
 from CLOCKEDIN_Backend.models.company import Company
 from CLOCKEDIN_Backend.models.user import User
 
+
 class WorkCycleActionType(models.TextChoices):
     QR_CODE = "qr_code", "QR Code"
     APP = "app", "App"
+
 
 class CurrentWorkCycle(models.Model):
     employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_work_cycles")

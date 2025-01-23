@@ -10,7 +10,7 @@ class RoleEnum(Enum):
 
 
 class Role(models.Model):
-    name = models.CharField(max_length=50, unique=True, default='Employee')
+    name = models.CharField(max_length=50, unique=True, default="Employee")
 
     def __str__(self):
         return self.name
