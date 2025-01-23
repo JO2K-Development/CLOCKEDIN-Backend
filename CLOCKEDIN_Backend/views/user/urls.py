@@ -1,6 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
+from CLOCKEDIN_Backend.views.user.company_view import CreateCompanyView
 from CLOCKEDIN_Backend.views.user.invitation_view import InvitationViewSet
 from CLOCKEDIN_Backend.views.user.user_view import UserViewSet
 from CLOCKEDIN_Backend.views.user.work_cycles_view import WorkCyclesViewSet
@@ -15,4 +16,5 @@ router.register(r"work-cycles", WorkCyclesViewSet, basename="work-cycles")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("create-company/", CreateCompanyView.as_view(), name="create-company"),
 ]

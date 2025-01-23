@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from CLOCKEDIN_Backend.views.auth.google.views import GoogleLogin
-from CLOCKEDIN_Backend.views.auth.views import CustomRegisterView
+from CLOCKEDIN_Backend.views.auth.register_view import CustomRegisterView
 
 urlpatterns = [
     path("google/", GoogleLogin.as_view(), name="google_login"),
