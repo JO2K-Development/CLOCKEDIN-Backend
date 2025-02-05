@@ -19,3 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
             "company_id",
             "manager_id",
         ]
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]

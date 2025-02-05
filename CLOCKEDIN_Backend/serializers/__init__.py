@@ -5,4 +5,4 @@ from CLOCKEDIN_Backend.serializers.invite_serializer import (
     InvitationSerializer,
 )
 from CLOCKEDIN_Backend.serializers.role_serializer import RoleSerializer
-from CLOCKEDIN_Backend.serializers.user_serializer import UserSerializer
+from CLOCKEDIN_Backend.serializers.user_serializer import UserSerializer, UserUpdateSerializer

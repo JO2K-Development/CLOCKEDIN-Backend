@@ -1,13 +1,16 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.generics import RetrieveUpdateAPIView
 
-from CLOCKEDIN_Backend.models import User
 from CLOCKEDIN_Backend.permissions import IsEmployee
-from CLOCKEDIN_Backend.serializers import UserSerializer
+from CLOCKEDIN_Backend.serializers import UserSerializer, UserUpdateSerializer
 
 
-class UserViewSet(ReadOnlyModelViewSet):
+class UserView(RetrieveUpdateAPIView):
     permission_classes = [IsEmployee]
-    serializer_class = UserSerializer
 
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
+    def get_object(self):
+        return self.request.user
+
+    def get_serializer_class(self):
+        if self.request.method == "PATCH" or self.request.method == "PUT":
+            return UserUpdateSerializer
+        return UserSerializer
