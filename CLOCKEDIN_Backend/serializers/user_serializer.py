@@ -15,6 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "position",
+            "image_url",
             "roles",
             "company_id",
             "manager_id",
@@ -24,4 +25,4 @@ class UserSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name"]
+        fields = ["first_name", "last_name", "image_url"]
