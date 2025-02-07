@@ -16,10 +16,11 @@ class InvitationSerializer(serializers.ModelSerializer):
 class InvitationInfoSerializer(serializers.ModelSerializer):
     company_id = serializers.IntegerField(source="company.id")
     company_name = serializers.CharField(source="company.name")
+    company_logo_url = serializers.CharField(source="company.logo_url")
 
     class Meta:
         model = Invitation
-        fields = ["company_id", "company_name", "id", "email", "position", "roles"]
+        fields = ["company_id", "company_name", "company_logo_url", "id", "email", "position", "roles"]
 
     def get_roles(self, obj):
         return [role.name for role in obj.roles.all()]

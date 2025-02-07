@@ -15,6 +15,6 @@ router.register(r"work-cycles", WorkCyclesViewSet, basename="work-cycles")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("create-company/", CreateCompanyView.as_view(), name="company"),
+    path("company/", CreateCompanyView.as_view(), name="company"),
     path("user/", UserView.as_view(), name="user-detail"),
 ]
