@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 
 class InvitationViewSet(ReadOnlyModelViewSet):
-    authentication_classes = [JWTAuthentication]
     permission_classes = [IsEmployee]
     serializer_class = InvitationInfoSerializer
     queryset = Invitation.objects.filter(status=InvitationStatus.PENDING)
