@@ -5,10 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from CLOCKEDIN_Backend.models import Company, Invitation, InvitationStatus
-from CLOCKEDIN_Backend.permissions import IsEmployee
 from CLOCKEDIN_Backend.serializers import AcceptInvitationSerializer
 from CLOCKEDIN_Backend.serializers.invite_serializer import InvitationInfoSerializer
 

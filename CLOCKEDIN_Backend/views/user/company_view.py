@@ -2,15 +2,15 @@ from django.db import transaction
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from CLOCKEDIN_Backend.models import Company, Role, RoleEnum
-from CLOCKEDIN_Backend.permissions import IsEmployee
 from CLOCKEDIN_Backend.serializers.company_serializer import CreateCompanySerializer, CompanySerializer
 
 
 class CreateCompanyView(GenericAPIView, CreateModelMixin):
-    permission_classes = [IsEmployee]
+    permission_classes = [IsAuthenticated]
     serializer_class = CreateCompanySerializer
 
     def perform_create(self, serializer):
