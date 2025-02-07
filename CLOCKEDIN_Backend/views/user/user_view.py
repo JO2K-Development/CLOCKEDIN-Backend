@@ -1,11 +1,11 @@
 from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticated
 
-from CLOCKEDIN_Backend.permissions import IsEmployee
 from CLOCKEDIN_Backend.serializers import UserSerializer, UserUpdateSerializer
 
 
 class UserView(RetrieveUpdateAPIView):
-    permission_classes = [IsEmployee]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
