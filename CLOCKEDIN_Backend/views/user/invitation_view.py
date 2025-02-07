@@ -2,6 +2,7 @@ import logging
 
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class InvitationViewSet(ReadOnlyModelViewSet):
-    permission_classes = [IsEmployee]
+    permission_classes = [IsAuthenticated]
     serializer_class = InvitationInfoSerializer
     queryset = Invitation.objects.filter(status=InvitationStatus.PENDING)
 
