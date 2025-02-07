@@ -8,4 +8,12 @@ class CreateCompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ["company_name"]
+        fields = ["company_name", "company_logo_url"]
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    company_name = serializers.CharField()
+
+    class Meta:
+        model = Company
+        fields = ["company_name", "company_logo_url"]

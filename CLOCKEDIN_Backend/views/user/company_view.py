@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from CLOCKEDIN_Backend.models import Company, Role, RoleEnum
 from CLOCKEDIN_Backend.permissions import IsEmployee
-from CLOCKEDIN_Backend.serializers.company_serializer import CreateCompanySerializer
+from CLOCKEDIN_Backend.serializers.company_serializer import CreateCompanySerializer, CompanySerializer
 
 
 class CreateCompanyView(GenericAPIView, CreateModelMixin):
@@ -29,3 +29,11 @@ class CreateCompanyView(GenericAPIView, CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.company:
+            return Response({"error": "User does not belong to any company."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CompanySerializer(user.company)
+        return Response(serializer.data, status=status.HTTP_200_OK)
