@@ -16,7 +16,7 @@ class InvitationSerializer(serializers.ModelSerializer):
 class InvitationInfoSerializer(serializers.ModelSerializer):
     company_id = serializers.IntegerField(source="company.id")
     company_name = serializers.CharField(source="company.name")
-    company_logo_url = serializers.CharField(source="company.logo_url")
+    company_logo_url = serializers.CharField(source="company.company_logo_url")
 
     class Meta:
         model = Invitation
