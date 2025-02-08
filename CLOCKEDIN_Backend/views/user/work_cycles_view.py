@@ -16,7 +16,6 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class WorkCyclesViewSet(ReadOnlyModelViewSet):
-    authentication_classes = [JWTAuthentication]
     permission_classes = [IsEmployee]
     serializer_class = WorkCycleSerializer
     pagination_class = StandardResultsSetPagination

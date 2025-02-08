@@ -13,7 +13,5 @@ class WorkCycleSerializer(serializers.ModelSerializer):
             "start_time",
             "end_time",
             "duration",
-            "is_confirmed_stationary",
-            "start_method",
-            "end_method",
+            "status",
         ]
